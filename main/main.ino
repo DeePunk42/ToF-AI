@@ -33,6 +33,7 @@ void loop()
   if (tof::myImager.isDataReady() == true)
   {
     tof::parseData(&measurementData, data);
+    // displayData();
     int predicted_class = ml::runInference(data);
     if (predicted_class >= 0) {
       Serial.print("[+] Predicted: ");
@@ -45,4 +46,18 @@ void loop()
     delay(5);
   }
 
+}
+
+void displayData()
+{
+  for (int i = 0; i < 8; i++){
+    for (int j = 0; j < 8; j++){
+      Serial.print("\t");
+      Serial.print("1");
+      // Serial.print(data[i][j][0]);
+    }
+    Serial.println("");
+  }
+  Serial.println("");
+  return;
 }
