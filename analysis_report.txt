@@ -1,0 +1,477 @@
+2025-11-23 17:10:45.311210: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2025-11-23 17:10:45.311241: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2025-11-23 17:11:01.762892: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:922] could not open file to read NUMA node: /sys/bus/pci/devices/0000:01:00.0/numa_node
+Your kernel may have been built without NUMA support.
+2025-11-23 17:11:01.763533: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2025-11-23 17:11:01.763887: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcublas.so.11'; dlerror: libcublas.so.11: cannot open shared object file: No such file or directory
+2025-11-23 17:11:01.764193: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcublasLt.so.11'; dlerror: libcublasLt.so.11: cannot open shared object file: No such file or directory
+2025-11-23 17:11:01.764488: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcufft.so.10'; dlerror: libcufft.so.10: cannot open shared object file: No such file or directory
+2025-11-23 17:11:01.765356: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcusolver.so.11'; dlerror: libcusolver.so.11: cannot open shared object file: No such file or directory
+2025-11-23 17:11:01.766089: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcusparse.so.11'; dlerror: libcusparse.so.11: cannot open shared object file: No such file or directory
+2025-11-23 17:11:01.766371: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudnn.so.8'; dlerror: libcudnn.so.8: cannot open shared object file: No such file or directory
+2025-11-23 17:11:01.766392: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1850] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2025-11-23 17:11:01.766810: I tensorflow/core/platform/cpu_feature_guard.cc:151] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+ToF手势识别系统 - 模型与数据集完整分析
+================================================================================
+生成时间: 2025-11-23 17:11:01
+项目路径: /mnt/c/Users/DeePunk.DEEPUNK/Documents/proj/arduino/ToF-AI
+================================================================================
+模型结构分析
+================================================================================
+
+模型文件: /mnt/c/Users/DeePunk.DEEPUNK/Documents/proj/arduino/ToF-AI/model/CNN2D_ST_HandPosture_8classes.h5
+文件大小: 31.09 KB
+
+层结构详情:
+--------------------------------------------------------------------------------
+
+第 1 层: input_1
+  类型: InputLayer
+  输出形状: [(None, 8, 8, 2)]
+  参数量: 0
+
+第 2 层: conv2d
+  类型: Conv2D
+  输出形状: (None, 6, 6, 8)
+  参数量: 152
+  激活函数: linear
+  滤波器: 8
+  卷积核: (3, 3)
+  填充: valid
+
+第 3 层: activation
+  类型: Activation
+  输出形状: (None, 6, 6, 8)
+  参数量: 0
+  激活函数: relu
+
+第 4 层: max_pooling2d
+  类型: MaxPooling2D
+  输出形状: (None, 3, 3, 8)
+  参数量: 0
+  步长: (2, 2)
+  填充: valid
+  池化大小: (2, 2)
+
+第 5 层: dropout
+  类型: Dropout
+  输出形状: (None, 3, 3, 8)
+  参数量: 0
+  Dropout率: 0.2
+
+第 6 层: flatten
+  类型: Flatten
+  输出形状: (None, 72)
+  参数量: 0
+
+第 7 层: dense
+  类型: Dense
+  输出形状: (None, 32)
+  参数量: 2,336
+  激活函数: relu
+  神经元数: 32
+
+第 8 层: dense_1
+  类型: Dense
+  输出形状: (None, 8)
+  参数量: 264
+  激活函数: softmax
+  神经元数: 8
+
+
+模型总参数: 2,752
+输入形状: (None, 8, 8, 2)
+输出形状: (None, 8)
+
+
+================================================================================
+数据集结构分析
+================================================================================
+
+
+类别: None
+--------------------------------------------------------------------------------
+  数据字段: ['target_status', 'valid', 'signal_per_spad', 'distance_mm']
+  Signal shape: (64, 56)
+  Distance shape: (64, 56)
+  时间序列长度: 56
+
+  Signal统计:
+    - 最小值: 7.00
+    - 最大值: 2682.00
+    - 平均值: 440.59
+
+  Distance统计 (mm):
+    - 最小值: 213.00
+    - 最大值: 3781.00
+    - 平均值: 632.66
+
+  单帧示例 (第1帧重塑为8x8):
+  Distance map:
+[[2284 2271 2264 2305 2310 2312 2324 2270]
+ [2562 2597 2571 2600  406  397 2621  408]
+ [ 448  444  431  410  394  392  403  414]
+ [ 425  399  447  408  390  388  386  420]
+ [ 448  403  443  414  386  378  365  417]
+ [ 442  442  443  424  387  368  373  403]
+ [ 439 1823  498  466  408  368  424  412]
+ [ 408  519  506  466  430  411  424  392]]
+
+  Signal map:
+[[ 38  27  29  30  28  22  34  31]
+ [ 21  22  30  18 115  92  14  20]
+ [ 11  18  50 110 362 360  84  29]
+ [ 17  16  80 192 460 409 210  17]
+ [ 15  16 190 281 547 555 350  27]
+ [ 11  22  64 280 515 518 263  23]
+ [ 14   7  61 193 315 365 309 119]
+ [ 15 338 409 413 354 584 729 805]]
+
+  总样本数: 10
+
+
+类别: FlatHand
+--------------------------------------------------------------------------------
+  数据字段: ['target_status', 'valid', 'signal_per_spad', 'distance_mm']
+  Signal shape: (64, 66)
+  Distance shape: (64, 66)
+  时间序列长度: 66
+
+  Signal统计:
+    - 最小值: 6.00
+    - 最大值: 4776.00
+    - 平均值: 731.92
+
+  Distance统计 (mm):
+    - 最小值: 147.00
+    - 最大值: 4147.00
+    - 平均值: 717.60
+
+  单帧示例 (第1帧重塑为8x8):
+  Distance map:
+[[2240 2218 2296 2290 2311 2340 2342  346]
+ [2588 2599 2648 2731 2655 2628 2730 2640]
+ [ 398  365 3055  394  331 3173 3171  362]
+ [ 434  540  293  366  291  302  387  371]
+ [ 391  560  332  324  301  308  330  366]
+ [ 378  457  464  308  302  298  321  342]
+ [ 369  278  354  302  292  290  333  336]
+ [ 633  328  290  296  286  282  384  335]]
+
+  Signal map:
+[[  32   27   41   38   33   29   26   24]
+ [  20   24   21   18   25   21   21   19]
+ [  10   15   16   26   35   17   18   13]
+ [   8   41  281  147  477   62   14   10]
+ [  10   70  314  321  589  114   21    9]
+ [  13  142  269  665  819  582   24   10]
+ [  25  670  262 1003 1087  529   21   18]
+ [ 181  318  989 1132  972  375   19   15]]
+
+  总样本数: 26
+
+
+类别: Like
+--------------------------------------------------------------------------------
+  数据字段: ['target_status', 'valid', 'signal_per_spad', 'distance_mm']
+  Signal shape: (64, 86)
+  Distance shape: (64, 86)
+  时间序列长度: 86
+
+  Signal统计:
+    - 最小值: 5.00
+    - 最大值: 3020.00
+    - 平均值: 364.26
+
+  Distance统计 (mm):
+    - 最小值: -481.00
+    - 最大值: 3891.00
+    - 平均值: 971.65
+
+  单帧示例 (第1帧重塑为8x8):
+  Distance map:
+[[2233 2253 2312 2322 2302 2341 2244 2289]
+ [2536 2645 2636 2629 2678 2662 2664 2696]
+ [3058 3110  403  346 3178 3152 3144 3109]
+ [3589  373  361  346  327  358  339  406]
+ [ 364  373  344  294  458  350  343  343]
+ [ 377  332  446  304  472  341 1389  338]
+ [ 338  291  277  288  325 1195  368  338]
+ [ 754  275  270  276  296  764  318  306]]
+
+  Signal map:
+[[  20   34   20   30   31   23   31   32]
+ [  19   17   16   15   23   19   17   22]
+ [  12   15   11   11   13   14   12   16]
+ [  13   10   10   25    8   11    5   11]
+ [  10   13   26  363   19    7    8    6]
+ [   9   29   67  755   33    9    8    8]
+ [  13  445  936  802   78    8    8   11]
+ [  17  553 1142  963  502   72   10   10]]
+
+  总样本数: 24
+
+
+类别: Dislike
+--------------------------------------------------------------------------------
+  数据字段: ['target_status', 'valid', 'signal_per_spad', 'distance_mm']
+  Signal shape: (64, 63)
+  Distance shape: (64, 63)
+  时间序列长度: 63
+
+  Signal统计:
+    - 最小值: 6.00
+    - 最大值: 2089.00
+    - 平均值: 235.20
+
+  Distance统计 (mm):
+    - 最小值: -522.00
+    - 最大值: 3853.00
+    - 平均值: 1000.99
+
+  单帧示例 (第1帧重塑为8x8):
+  Distance map:
+[[2242 2246 2278 2298 2367 2344 2314 2376]
+ [2552 2528 2658 2660 2702 2668 2686 2704]
+ [2973  372  277  257  410  361 3060 3066]
+ [ 348  260  247  242  314  394  371  398]
+ [ 361  249  233  252  353  375  392  366]
+ [ 347  239  248  301  360  371  391  404]
+ [ 365  712  277  285  385  398  398  421]
+ [ 807  737  254  266  718  539  478  474]]
+
+  Signal map:
+[[  30   31   38   24   26   22   28   38]
+ [  15   18   23   14   20   24   19   27]
+ [  15    8  140  196   10   10   14   20]
+ [  10  240  623  788   20   17    7   12]
+ [  12  577 1128  618  282   64   14   12]
+ [  12  269  760  477  499  478  264   46]
+ [   8   86  484  203   24  162  295  141]
+ [  33   85  644  219   82  124  242   59]]
+
+  总样本数: 24
+
+
+类别: Fist
+--------------------------------------------------------------------------------
+  数据字段: ['target_status', 'valid', 'signal_per_spad', 'distance_mm']
+  Signal shape: (64, 73)
+  Distance shape: (64, 73)
+  时间序列长度: 73
+
+  Signal统计:
+    - 最小值: 5.00
+    - 最大值: 2141.00
+    - 平均值: 246.87
+
+  Distance统计 (mm):
+    - 最小值: 190.00
+    - 最大值: 3981.00
+    - 平均值: 1082.74
+
+  单帧示例 (第1帧重塑为8x8):
+  Distance map:
+[[2222 2298 2318 2289 2302 2307 2347 2375]
+ [2556 2622 2634 2723 2648 2724 2683 2718]
+ [2945 3092 3084 3057 3165 3122 3181 2898]
+ [3606  413  408  403  382  391  361  367]
+ [ 402  456  692  343  314  372  408  368]
+ [ 409  680  650  321  304  307  350  317]
+ [ 368  669  638  323  320  311  345  364]
+ [ 703  552  643  336  311  304  328  382]]
+
+  Signal map:
+[[ 28  28  24  23  36  27  24  29]
+ [ 22  20  22  28  21  17  22  25]
+ [ 11  15  20  12  12  17  16  14]
+ [ 15   8  11  12  12  12   5  13]
+ [ 15  18  41 139 257  21   7  10]
+ [ 11  24 125 570 726 566  16  11]
+ [ 11  76 162 553 690 813  23  11]
+ [ 12  32 149 141 783 863  26  15]]
+
+  总样本数: 35
+
+
+类别: Love
+--------------------------------------------------------------------------------
+  数据字段: ['target_status', 'valid', 'signal_per_spad', 'distance_mm']
+  Signal shape: (64, 87)
+  Distance shape: (64, 87)
+  时间序列长度: 87
+
+  Signal统计:
+    - 最小值: 8.00
+    - 最大值: 1914.00
+    - 平均值: 442.04
+
+  Distance统计 (mm):
+    - 最小值: 186.00
+    - 最大值: 3974.00
+    - 平均值: 849.11
+
+  单帧示例 (第1帧重塑为8x8):
+  Distance map:
+[[2274 2291 2272 2310 2294 2323 2306 2341]
+ [2532 2612 2628 2661 2711 2710 2714 2736]
+ [ 427 3098 3117 3208  402  422 3142 2993]
+ [ 431 3974  398  628  571  402  394 3722]
+ [ 406  338  342  354  334  355  399  388]
+ [ 316  350  356  360  374  329  332  395]
+ [ 333  363  463  570  376  351  326  356]
+ [ 348  366  385  404  416  378  348  340]]
+
+  Signal map:
+[[ 38  25  27  33  28  26  25  39]
+ [ 20  22  17  20  25  22  22  23]
+ [ 10  18  14  13  17  11  12  15]
+ [ 21  12  15  58  41  21  14  10]
+ [ 16 167 314 290 430  38  25  13]
+ [437 477 252 301 431 637  72  14]
+ [585 657  96 166 528 584 559  76]
+ [383 340 444 403 374 358 523 553]]
+
+  总样本数: 15
+
+
+类别: BreakTime
+--------------------------------------------------------------------------------
+  数据字段: ['target_status', 'valid', 'signal_per_spad', 'distance_mm']
+  Signal shape: (64, 13)
+  Distance shape: (64, 13)
+  时间序列长度: 13
+
+  Signal统计:
+    - 最小值: 5.00
+    - 最大值: 959.00
+    - 平均值: 148.71
+
+  Distance统计 (mm):
+    - 最小值: 304.00
+    - 最大值: 3986.00
+    - 平均值: 1152.10
+
+  单帧示例 (第1帧重塑为8x8):
+  Distance map:
+[[2214 2244 2260 2331 2298 2319 2338 2293]
+ [2562 2606 2648 2639 2701 2665 2665  361]
+ [3008 3065  475 3118 3112 3196  403  394]
+ [ 396 3594  440  619  574  442  374  416]
+ [ 472  399  347  362  399  371  352  366]
+ [ 336  323  324  320  319  326  318  316]
+ [ 388  400  439  351  541  360  320  305]
+ [ 406  569  331  365  568  582  537  351]]
+
+  Signal map:
+[[ 27  38  28  37  29  31  32  39]
+ [ 20  16  20  15  20  20  18  13]
+ [ 14  10   6  13  12  12  10  14]
+ [  8  12  12  46  34  12  10   7]
+ [ 12  21 231 240 140  35  20  19]
+ [159 426 414 636 693 825 647 118]
+ [ 17  20 124 361 174  87 580 914]
+ [  9  19 275 424 249 146 281 574]]
+
+  总样本数: 14
+
+
+类别: CrossHands
+--------------------------------------------------------------------------------
+  数据字段: ['target_status', 'valid', 'signal_per_spad', 'distance_mm']
+  Signal shape: (64, 8)
+  Distance shape: (64, 8)
+  时间序列长度: 8
+
+  Signal统计:
+    - 最小值: 6.00
+    - 最大值: 968.00
+    - 平均值: 135.95
+
+  Distance统计 (mm):
+    - 最小值: 266.00
+    - 最大值: 3847.00
+    - 平均值: 1199.42
+
+  单帧示例 (第1帧重塑为8x8):
+  Distance map:
+[[2268 2240 2313 2298 2289 2315 2329 2341]
+ [2616 2680 2612 2644 2666 2701 2650 2673]
+ [ 413 2993  366 3117 3174 3112 3151 3184]
+ [ 405  420  461  611  555  383  368  383]
+ [ 388  358  608  578  583  309  297  345]
+ [ 360  340  361  513  292  280  321  383]
+ [ 371  352  343  288  276  344  364  374]
+ [ 340  742  283  272  328  578  562  490]]
+
+  Signal map:
+[[ 39  32  29  28  27  28  29  39]
+ [ 15  24  19  26  16  27  20  25]
+ [  9  19   8  12  15  14  12  14]
+ [ 10   9  18  58  31  13  16   9]
+ [ 63 149  64 172 131 226 407  17]
+ [ 11 153 356 267 601 577  41  10]
+ [  9  25 459 576 826  25  13  12]
+ [  7  50 629 968 455 120 162  30]]
+
+  总样本数: 14
+
+
+================================================================================
+数据集统计汇总
+================================================================================
+None           :    10 样本 ( 6.17%)
+FlatHand       :    26 样本 (16.05%)
+Like           :    24 样本 (14.81%)
+Dislike        :    24 样本 (14.81%)
+Fist           :    35 样本 (21.60%)
+Love           :    15 样本 ( 9.26%)
+BreakTime      :    14 样本 ( 8.64%)
+CrossHands     :    14 样本 ( 8.64%)
+总计             :   162 样本
+
+
+================================================================================
+Arduino/STM32 移植要点
+================================================================================
+
+1. 数据输入规格:
+   - 输入形状: (8, 8, 2)
+   - 通道1: distance_mm - 距离测量值(毫米)
+   - 通道2: signal_per_spad - 每个SPAD的信号强度
+   - 数据类型: FLOAT32
+   - 数据来源: VL53L8CX ToF传感器的64个zone
+
+2. 数据预处理:
+   - Distance归一化: (distance - 100) / (400 - 100)
+   - Signal归一化: 需要根据实际数据范围确定
+   - 背景距离阈值: 120mm
+   - 数据格式转换: 从64个zone的1D数组重塑为8x8x2的3D张量
+
+3. 模型规格:
+   - 总参数: 2,752
+   - Flash占用: ~25 KB (FLOAT32) 或 ~7 KB (INT8量化)
+   - RAM占用: ~3 KB
+   - 推理时间: ~1.5 ms @ 84MHz (STM32F401)
+
+4. 模型转换流程:
+   a. Keras (.h5) → TensorFlow Lite (.tflite)
+   b. TFLite → TFLite Micro (C数组)
+   c. 可选: 应用INT8量化减少模型大小
+
+5. 代码实现要点:
+   - 使用TensorFlow Lite Micro库
+   - 分配tensor arena (约8KB)
+   - 实现VL53L8CX驱动读取64-zone数据
+   - 实现数据预处理函数
+   - 调用推理引擎
+   - 解析输出获取手势类别
+
+6. 输出格式:
+   - 8个类别的概率值 (0.0-1.0)
+   - 使用softmax激活
+   - 选择最大概率的类别作为识别结果
+   - 类别: None, FlatHand, Like, Dislike, Fist, Love, BreakTime, CrossHands
+
