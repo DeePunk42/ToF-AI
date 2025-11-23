@@ -47,8 +47,15 @@ namespace tof {
       {
         for (int x = tof::imageWidth - 1; x >= 0; x--)
         {
-          data[x][y][0] = ml::quantize_float_to_int8(measurementData->distance_mm[x + y] / 4096.0f);
-          data[x][y][1] = ml::quantize_float_to_int8(measurementData->signal_per_spad[x + y] / 65535.0f);
+          int idx = x + y;
+          float distance_norm = (static_cast<float>(measurementData->distance_mm[idx]) - 100.0f) / 300.0f;
+          distance_norm = constrain(distance_norm, 0.0f, 1.0f);
+
+          float signal_norm = static_cast<float>(measurementData->signal_per_spad[idx]) / 5000.0f;
+          signal_norm = constrain(signal_norm, 0.0f, 1.0f);
+
+          data[x][y][0] = ml::quantize_float_to_int8(distance_norm);
+          data[x][y][1] = ml::quantize_float_to_int8(signal_norm);
         }
       }
       return 0;
